@@ -4,10 +4,14 @@ import { defineConfig } from "vite"
 
 export default defineConfig({
   base: "/audio-labelling",
+
   plugins: [react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  build: {
+    outDir: 'docs', // Set the build output directory to /docs
   },
 })
