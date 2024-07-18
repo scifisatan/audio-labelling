@@ -12,6 +12,7 @@ const AudioLabelingApp = () => {
   const [currentLabel, setCurrentLabel] = useState('');
   const [labeledData, setLabeledData] = useState([]);
   const audioRef = useRef(null);
+  const [error, setError] = useState(null);
 
 
   const handleLabelsChange = (e) => {
@@ -20,8 +21,17 @@ const AudioLabelingApp = () => {
 
   const handleFolderSelect = (e) => {
     const selectedFiles = Array.from(e.target.files).filter(file => file.type.startsWith('audio/'));
-    setFiles(selectedFiles);
-    setLabeledData(selectedFiles.map(file => ({ file, label: '' })));
+
+    if (selectedFiles.length === 0) {
+      // Set an error state here
+      setError('No audio files found.');
+    } else {
+      // Reset the error state in case it was set previously
+      setError('');
+      setFiles(selectedFiles);
+      setLabeledData(selectedFiles.map(file => ({ file, label: '' })));
+    }
+
   };
 
 
@@ -89,7 +99,7 @@ const AudioLabelingApp = () => {
           />
         </div>
       }
-
+      {error && <p className="text-red-500">{error}</p>}
       {files.length > 0 && (
         <div>
           <div className="mb-4">
